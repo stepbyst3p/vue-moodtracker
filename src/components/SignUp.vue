@@ -2,11 +2,6 @@
  	<form @submit.prevent>
 		<h1>Get Started</h1>
 
-		<label for="name">Name</label>
-		<input v-model.trim="signupForm.name" type="text" placeholder="Savvy Apps" id="name" />
-
-		<label for="title">Title</label>
-		<input v-model.trim="signupForm.title" type="text" placeholder="Company" id="title" />
 
 		<label for="email2">Email</label>
 		<input v-model.trim="signupForm.email" type="text" placeholder="you@email.com" id="email2" />
@@ -30,8 +25,6 @@ export default {
   data: function() {
     return {
       signupForm: {
-            name: '',
-            title: '',
             email: '',
             password: ''
         }
@@ -40,13 +33,7 @@ export default {
   methods: {
     signup() {
 		fb.auth.createUserWithEmailAndPassword(this.signupForm.email, this.signupForm.password).then(user => {
-			this.$store.commit('setCurrentUser', user)
-
-			// create user obj
-			fb.usersCollection.doc(user.uid).set({
-				name: this.signupForm.name,
-				title: this.signupForm.title
-			}).then(() => {
+			this.$store.commit('setCurrentUser', user).then(() => {
 				this.$store.dispatch('fetchUserProfile')
 				this.$router.push('/home')
 			}).catch(err => {

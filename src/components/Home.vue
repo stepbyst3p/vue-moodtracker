@@ -1,6 +1,7 @@
 <template>
   <div>
     <PageTitle/>
+	<MoodForm/>
     <button v-on:click="logout">Logout</button>
   </div>
 </template>
