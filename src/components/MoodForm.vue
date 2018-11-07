@@ -1,8 +1,13 @@
 <template>
+<div>
   <form action="" class="mood-form" @submit.prevent="submitCurrentMood">
     <input type="text" autofocus v-model="currentMood"/>
     <button>Submit</button>
   </form>
+  <ul>
+	<li v-for="mood in moodsList" :key="mood.id">{{mood}}</li>
+  </ul>
+</div>
 </template>
 
 <script>
@@ -13,7 +18,8 @@ export default {
   name: 'MoodForm',
   data: function() {
     return {
-      currentMood: ''
+	  currentMood: '',
+	  moodsList: []
     }
   },
   computed: {
@@ -21,15 +27,8 @@ export default {
     },
 	methods: {
 		submitCurrentMood() {
-			fb.moodsCollection.add({
-				createdOn: new Date(),
-				currentMood: this.currentMood,
-				userId: this.currentUser.uid
-			}).then(ref => {
-				this.post.content = ''
-			}).catch(err => {
-				console.log(err)
-			})
+			this.moodsList.push(this.currentMood);
+			this.currentMood = '';
 		}
 	}
 }
